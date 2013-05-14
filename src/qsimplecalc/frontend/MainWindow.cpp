@@ -28,29 +28,30 @@ void MainWindow::clear()
 
 void MainWindow::connectSignals()
 {
-    connect(ui->clButton,       SIGNAL(clicked()), SLOT(clear()));
-    connect(ui->exeButton,      SIGNAL(clicked()), SLOT(onExePressed()));
-    connect(ui->n0Button,       SIGNAL(clicked()), SLOT(onN0Pressed()));
-    connect(ui->n1Button,       SIGNAL(clicked()), SLOT(onN1Pressed()));
-    connect(ui->n2Button,       SIGNAL(clicked()), SLOT(onN2Pressed()));
-    connect(ui->n3Button,       SIGNAL(clicked()), SLOT(onN3Pressed()));
-    connect(ui->n4Button,       SIGNAL(clicked()), SLOT(onN4Pressed()));
-    connect(ui->n5Button,       SIGNAL(clicked()), SLOT(onN5Pressed()));
-    connect(ui->n6Button,       SIGNAL(clicked()), SLOT(onN6Pressed()));
-    connect(ui->n7Button,       SIGNAL(clicked()), SLOT(onN7Pressed()));
-    connect(ui->n8Button,       SIGNAL(clicked()), SLOT(onN8Pressed()));
-    connect(ui->n9Button,       SIGNAL(clicked()), SLOT(onN9Pressed()));
-    connect(ui->divButton,      SIGNAL(clicked()), SLOT(onDivPressed()));
-    connect(ui->multButton,     SIGNAL(clicked()), SLOT(onMultPressed()));
-    connect(ui->subsButton,     SIGNAL(clicked()), SLOT(onSubsPressed()));
-    connect(ui->addButton,      SIGNAL(clicked()), SLOT(onAddPressed()));
-    connect(ui->logButton,      SIGNAL(clicked()), SLOT(onLogPressed()));
-    connect(ui->dotButton,      SIGNAL(clicked()), SLOT(onDotPressed()));
-    connect(ui->eqButton,       SIGNAL(clicked()), SLOT(onEqPressed()));
-    connect(ui->xButton,        SIGNAL(clicked()), SLOT(onXPressed()));
-    connect(ui->openParButton,  SIGNAL(clicked()), SLOT(onOpenParPressed()));
-    connect(ui->closeParButton, SIGNAL(clicked()), SLOT(onCloseParPressed()));
-    connect(ui->delButton,      SIGNAL(clicked()), SLOT(onDelPressed()));
+    connect(ui->expText,        SIGNAL(returnPressed()), SLOT(onExePressed()));
+    connect(ui->exeButton,      SIGNAL(clicked()),       SLOT(onExePressed()));
+    connect(ui->n0Button,       SIGNAL(clicked()),       SLOT(onN0Pressed()));
+    connect(ui->n1Button,       SIGNAL(clicked()),       SLOT(onN1Pressed()));
+    connect(ui->n2Button,       SIGNAL(clicked()),       SLOT(onN2Pressed()));
+    connect(ui->n3Button,       SIGNAL(clicked()),       SLOT(onN3Pressed()));
+    connect(ui->n4Button,       SIGNAL(clicked()),       SLOT(onN4Pressed()));
+    connect(ui->n5Button,       SIGNAL(clicked()),       SLOT(onN5Pressed()));
+    connect(ui->n6Button,       SIGNAL(clicked()),       SLOT(onN6Pressed()));
+    connect(ui->n7Button,       SIGNAL(clicked()),       SLOT(onN7Pressed()));
+    connect(ui->n8Button,       SIGNAL(clicked()),       SLOT(onN8Pressed()));
+    connect(ui->n9Button,       SIGNAL(clicked()),       SLOT(onN9Pressed()));
+    connect(ui->divButton,      SIGNAL(clicked()),       SLOT(onDivPressed()));
+    connect(ui->multButton,     SIGNAL(clicked()),       SLOT(onMultPressed()));
+    connect(ui->subsButton,     SIGNAL(clicked()),       SLOT(onSubsPressed()));
+    connect(ui->addButton,      SIGNAL(clicked()),       SLOT(onAddPressed()));
+    connect(ui->logButton,      SIGNAL(clicked()),       SLOT(onLogPressed()));
+    connect(ui->dotButton,      SIGNAL(clicked()),       SLOT(onDotPressed()));
+    connect(ui->eqButton,       SIGNAL(clicked()),       SLOT(onEqPressed()));
+    connect(ui->xButton,        SIGNAL(clicked()),       SLOT(onXPressed()));
+    connect(ui->openParButton,  SIGNAL(clicked()),       SLOT(onOpenParPressed()));
+    connect(ui->closeParButton, SIGNAL(clicked()),       SLOT(onCloseParPressed()));
+    connect(ui->delButton,      SIGNAL(clicked()),       SLOT(onDelPressed()));
+    connect(ui->clButton,       SIGNAL(clicked()),       SLOT(clear()));
 }
 
 void MainWindow::onExePressed()

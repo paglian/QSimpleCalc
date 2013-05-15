@@ -1,10 +1,13 @@
 #include "QSimpleCalc.h"
+#include "mathlib/Parser.h"
 
 QSimpleCalc::QSimpleCalc()
 {
 }
 
-double QSimpleCalc::eval(const QString &/*exp*/)
+double QSimpleCalc::eval(const QString &strExp)
 {
-    return 0; // TODO
+    Node *exp = Parser().parse(strExp);
+
+    return exp->eval();
 }

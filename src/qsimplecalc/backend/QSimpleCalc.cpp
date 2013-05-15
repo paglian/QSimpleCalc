@@ -5,9 +5,14 @@ QSimpleCalc::QSimpleCalc()
 {
 }
 
-double QSimpleCalc::eval(const QString &strExp)
+double QSimpleCalc::eval(const QString &strExp, QString *errMsg)
 {
-    Node *exp = Parser().parse(strExp);
+    Node *exp = Parser().parse(strExp, errMsg);
 
-    return exp->eval();
+    if (exp) {
+        return exp->eval();
+    } else {
+        return 0;
+    }
+
 }

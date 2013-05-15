@@ -1,6 +1,7 @@
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "backend/QSimpleCalc.h"
+#include "mathlib/StringConstants.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -48,16 +49,22 @@ void MainWindow::connectSignals()
     connect(ui->dotButton,      SIGNAL(clicked()),       SLOT(onDotPressed()));
     connect(ui->eqButton,       SIGNAL(clicked()),       SLOT(onEqPressed()));
     connect(ui->xButton,        SIGNAL(clicked()),       SLOT(onXPressed()));
-    connect(ui->openParButton,  SIGNAL(clicked()),       SLOT(onOpenParPressed()));
-    connect(ui->closeParButton, SIGNAL(clicked()),       SLOT(onCloseParPressed()));
+    connect(ui->oParButton,     SIGNAL(clicked()),       SLOT(onOParPressed()));
+    connect(ui->cParButton,     SIGNAL(clicked()),       SLOT(onCParPressed()));
     connect(ui->delButton,      SIGNAL(clicked()),       SLOT(onDelPressed()));
     connect(ui->clButton,       SIGNAL(clicked()),       SLOT(clear()));
 }
 
 void MainWindow::onExePressed()
 {
-    double result = QSimpleCalc().eval(ui->expText->text());
-    ui->resultText->setText(QString::number(result));
+    QString errMsg;
+    double result = QSimpleCalc().eval(ui->expText->text(), &errMsg);
+
+    if (errMsg.isEmpty()) {
+        ui->resultText->setText(QString::number(result));
+    } else {
+        ui->resultText->setText(errMsg);
+    }
 }
 
 void MainWindow::onN0Pressed()
@@ -112,52 +119,52 @@ void MainWindow::onN9Pressed()
 
 void MainWindow::onDivPressed()
 {
-    append("/");
+    append(STR_DIV);
 }
 
 void MainWindow::onMultPressed()
 {
-    append("*");
+    append(STR_MULT);
 }
 
 void MainWindow::onAddPressed()
 {
-    append("+");
+    append(STR_ADD);
 }
 
 void MainWindow::onSubsPressed()
 {
-    append("-");
+    append(STR_SUBS);
 }
 
 void MainWindow::onLogPressed()
 {
-    append("log ");
+    append(STR_LOG);
 }
 
 void MainWindow::onEqPressed()
 {
-    append("=");
+    append(STR_EQ);
 }
 
 void MainWindow::onXPressed()
 {
-    append("x");
+    append(STR_X);
 }
 
 void MainWindow::onDotPressed()
 {
-    append(".");
+    append(STR_DOT);
 }
 
-void MainWindow::onCloseParPressed()
+void MainWindow::onOParPressed()
 {
-    append(")");
+    append(STR_OPAR);
 }
 
-void MainWindow::onOpenParPressed()
+void MainWindow::onCParPressed()
 {
-    append("(");
+    append(STR_CPAR);
 }
 
 void MainWindow::append(const QString &s)

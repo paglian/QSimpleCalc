@@ -10,7 +10,7 @@
 class Parser
 {
 public:
-    Node * parse(const QString &str);
+    Node * parse(const QString &str, QString *errMsg = 0);
 };
 
 #endif // PARSER_H

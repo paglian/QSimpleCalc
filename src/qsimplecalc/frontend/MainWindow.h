@@ -43,8 +43,8 @@ private slots:
     void onLogPressed();
     void onEqPressed();
     void onXPressed();
-    void onOpenParPressed();
-    void onCloseParPressed();
+    void onOParPressed();
+    void onCParPressed();
     void onDotPressed();
     void onDelPressed();
 };

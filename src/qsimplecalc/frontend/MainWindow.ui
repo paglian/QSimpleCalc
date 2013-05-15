@@ -111,7 +111,7 @@
      </widget>
     </item>
     <item row="6" column="4">
-     <widget class="QPushButton" name="closeParButton">
+     <widget class="QPushButton" name="cParButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>
@@ -223,7 +223,7 @@
      </widget>
     </item>
     <item row="7" column="4">
-     <widget class="QPushButton" name="openParButton">
+     <widget class="QPushButton" name="oParButton">
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>
       </property>

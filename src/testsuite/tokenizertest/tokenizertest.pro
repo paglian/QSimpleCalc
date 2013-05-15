@@ -11,7 +11,8 @@ CONFIG   += console
 CONFIG   -= app_bundle
 TEMPLATE = app
 
-SOURCES += TokenizertestTest.cpp
+SOURCES += \
+    TokenizerTest.cpp
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 QSIMPLECALC_PATH = ../../qsimplecalc/

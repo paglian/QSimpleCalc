@@ -8,7 +8,7 @@ class QSimpleCalc
 public:
     QSimpleCalc();
 
-    double eval(const QString &strExp, QString *errMsg = 0);
+    double eval(const QString &strExp);
 };
 
 #endif // QSIMPLECALC_H

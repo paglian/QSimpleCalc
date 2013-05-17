@@ -21,8 +21,13 @@ private:
     SyntaxTree & operator=(const SyntaxTree &);
 
     Node *_root;
+    QStringList _ops1;
+    QStringList _ops2;
+    QStringList _ops3;
 
     Node *buildTree(const QStringList &tokens, int start, int end);
+
+    int findNextOp(const QStringList &tokens, int start, int end, const QStringList &ops);
 };
 
 #endif // SYNTAXTREE_H

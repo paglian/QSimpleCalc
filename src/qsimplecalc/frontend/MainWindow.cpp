@@ -66,17 +66,21 @@ void MainWindow::onExePressed()
         double result = 0;
 
         try {
-            result = QSimpleCalc().eval(ui->expText->text(), &errMsg);
+            result = QSimpleCalc().eval(ui->expText->text());
         } catch (DivByZeroException &) {
             errMsg = tr("Division by zero is undefined");
         } catch (LogZeroException &) {
             errMsg = tr("Log of zero is undefined");
         } catch (LogNegativeException &) {
             errMsg = tr("Log of negative numbers is not supported");
-        } catch (NullValueException &) {
-            errMsg = tr("Null value");
         } catch (InvalidSyntaxException &) {
             errMsg = tr("Invalid syntax");
+        } catch (UnbalancedParException &) {
+            errMsg = tr("Unbalanced parentheses");
+        } catch (NullValueException &) {
+            errMsg = tr("Null value");
+        } catch (std::exception &) {
+            errMsg = tr("Unknown error");
         }
 
         if (errMsg.isEmpty()) {

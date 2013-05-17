@@ -46,4 +46,11 @@ class NullValueException : public MathException
 {
 };
 
+/**
+ * @brief The UnbalancedParException class
+ */
+class UnbalancedParException : public MathException
+{
+};
+
 #endif // EXCEPTIONS_H

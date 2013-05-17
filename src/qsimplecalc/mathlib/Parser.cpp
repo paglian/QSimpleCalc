@@ -1,10 +1,11 @@
 #include "Parser.h"
 #include "Tokenizer.h"
 #include "SyntaxTree.h"
+#include "Exceptions.h"
 
 #include <QObject>
 
-Node *Parser::parse(const QString &str, QString *errMsg)
+Node *Parser::parse(const QString &str)
 {
     QStringList tokens;
     if (Tokenizer().tokenize(str, tokens)) {
@@ -12,15 +13,7 @@ Node *Parser::parse(const QString &str, QString *errMsg)
 
         return tree.root();
     } else {
-        if (errMsg) {
-            if (tokens.size() > 0) {
-                *errMsg = QObject::tr("Invalid expression '%1'").arg(tokens.last());
-            } else {
-                *errMsg = QObject::tr("Invalid expression");
-            }
-        }
-
-        return 0;
+        throw InvalidSyntaxException();
     }
 }
 

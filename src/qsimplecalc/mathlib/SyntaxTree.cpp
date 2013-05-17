@@ -2,26 +2,16 @@
 #include "StringConstants.h"
 #include "Exceptions.h"
 
-SyntaxTree::SyntaxTree(const QStringList &tokens)
-    : _root(0)
+SyntaxTree::SyntaxTree()
 {
-    // Operators with precedence 1
-    _ops1 = QStringList() << STR_ADD << STR_SUBS;
-    // Operators with precedence 2
-    _ops2 = QStringList() << STR_DIV << STR_MULT;
-    // Operators with precedence 3
-    _ops3 = QStringList() << STR_LOG;
-
-    _root = buildTree(tokens, 0, tokens.size() - 1);
+    _operators.append(QStringList() << STR_ADD << STR_SUBS);    // Operators with precedence 1
+    _operators.append(QStringList() << STR_DIV << STR_MULT);    // Operators with precedence 2
+    _operators.append(QStringList() << STR_LOG);                // Operators with precedence 3
 }
 
-SyntaxTree::~SyntaxTree()
+Node * SyntaxTree::buildTree(const QStringList &tokens)
 {
-}
-
-Node *SyntaxTree::root()
-{
-    return _root;
+    return buildTree(tokens, 0, tokens.size() - 1);
 }
 
 Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
@@ -31,36 +21,28 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
     }
 
     if (start == end) {
-        // If we found a leaf, it must be a float number
+        // If we found a leaf, it must be a floating point number
         bool ok = false;
         double d = tokens[start].toDouble(&ok);
         if (ok) {
             return new FloatValue(d);
         }
     } else {
-        // Find next operator according to the operator precedence and parentheses
-        int i = -1;
-
-        i = findNextOp(tokens, start, end, _ops1);
+        // If not a leaf, find next operator according to the operator precedence and parentheses
+        int i = findNextOp(tokens, start, end);
         if (i != -1) {
             if (tokens[i] == STR_ADD) {
                 return new AddOp(buildTree(tokens, start, i - 1), buildTree(tokens, i + 1, end));
-            } else if (tokens[i] == STR_SUBS) {
+            }
+            if (tokens[i] == STR_SUBS) {
                 return new SubsOp(buildTree(tokens, start, i - 1), buildTree(tokens, i + 1, end));
             }
-        }
-
-        i = findNextOp(tokens, start, end, _ops2);
-        if (i != -1) {
             if (tokens[i] == STR_MULT) {
                 return new MultOp(buildTree(tokens, start, i - 1), buildTree(tokens, i + 1, end));
-            } else if (tokens[i] == STR_DIV) {
+            }
+            if (tokens[i] == STR_DIV) {
                 return new DivOp(buildTree(tokens, start, i - 1), buildTree(tokens, i + 1, end));
             }
-        }
-
-        i = findNextOp(tokens, start, end, _ops3);
-        if (i != -1) {
             if (tokens[i] == STR_LOG && i == start) {
                 return new LogOp(buildTree(tokens, i + 1, end));
             }
@@ -75,12 +57,23 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
     throw InvalidSyntaxException();
 }
 
+int SyntaxTree::findNextOp(const QStringList &tokens, int start, int end)
+{
+    for (int i = 0; i < _operators.size(); ++i) {
+        int next = findNextOp(tokens, start, end, _operators[i]);
+        if (next != -1) {
+            return next;
+        }
+    }
+    return -1;
+}
+
 int SyntaxTree::findNextOp(const QStringList &tokens, int start, int end, const QStringList &ops)
 {
     int next = -1;
     int cpars = 0;
 
-    // All operators are right-associative, so we start searching tokens from the end
+    // Left-to-right associativity
     for (int i = end; i >= start; --i) {
         const QString &token = tokens[i];
 

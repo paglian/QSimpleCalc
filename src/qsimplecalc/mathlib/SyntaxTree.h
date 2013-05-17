@@ -10,23 +10,19 @@
 class SyntaxTree
 {
 public:
-    SyntaxTree(const QStringList &tokens);
+    SyntaxTree();
 
-    ~SyntaxTree();
-
-    Node * root();
+    Node *buildTree(const QStringList &tokens);
 
 private:
     SyntaxTree(const SyntaxTree &);
     SyntaxTree & operator=(const SyntaxTree &);
 
     Node *_root;
-    QStringList _ops1;
-    QStringList _ops2;
-    QStringList _ops3;
+    QList<QStringList> _operators;
 
     Node *buildTree(const QStringList &tokens, int start, int end);
-
+    int findNextOp(const QStringList &tokens, int start, int end);
     int findNextOp(const QStringList &tokens, int start, int end, const QStringList &ops);
 };
 

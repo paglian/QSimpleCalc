@@ -7,15 +7,30 @@ namespace Ui {
 class MainWindow;
 }
 
+/**
+ * @brief The MainWindow class provides the calculator main window.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
     
 public:
+
+    /**
+     * @brief Constructs a MainWindow object which is a child of \a parent.
+     */
     explicit MainWindow(QWidget *parent = 0);
+
+    /**
+     * @brief Destroys the window.
+     */
     ~MainWindow();
     
 public slots:
+
+    /**
+     * @brief Clears all the user input from the window
+     */
     void clear();
 
 private:

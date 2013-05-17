@@ -1,6 +1,10 @@
 #ifndef NODE_H
 #define NODE_H
 
+#include <cmath>
+
+#include "Exceptions.h"
+
 /**
  * @brief Result
  */
@@ -25,7 +29,7 @@ class NullValue : public Node
 public:
     virtual Result eval() const
     {
-        return 0;
+        throw NullValueException();
     }
 };
 
@@ -115,5 +119,89 @@ public:
         return _exp1->eval() + _exp2->eval();
     }
 };
+
+
+/**
+ * @brief The SubsOp class
+ */
+class SubsOp : public BynaryOp
+{
+public:
+
+    SubsOp(Node *exp1, Node *exp2)
+        : BynaryOp(exp1, exp2)
+    { }
+
+    virtual Result eval() const
+    {
+        return _exp1->eval() - _exp2->eval();
+    }
+};
+
+
+/**
+ * @brief The MultOp class
+ */
+class MultOp : public BynaryOp
+{
+public:
+
+    MultOp(Node *exp1, Node *exp2)
+        : BynaryOp(exp1, exp2)
+    { }
+
+    virtual Result eval() const
+    {
+        return _exp1->eval() * _exp2->eval();
+    }
+};
+
+
+/**
+ * @brief The DivOp class
+ */
+class DivOp : public BynaryOp
+{
+public:
+
+    DivOp(Node *exp1, Node *exp2)
+        : BynaryOp(exp1, exp2)
+    { }
+
+    virtual Result eval() const
+    {
+        Result d = _exp2->eval();
+        if (d != 0) {
+            return _exp1->eval() / d;
+        } else {
+            throw DivByZeroException();
+        }
+    }
+};
+
+/**
+ * @brief The LogOp class
+ */
+class LogOp : public UnaryOp
+{
+public:
+
+    LogOp(Node *exp)
+        : UnaryOp(exp)
+    { }
+
+    virtual Result eval() const
+    {
+        Result d = _exp->eval();
+        if (d > 0) {
+            return std::log(d);
+        } else if (d == 0) {
+            throw LogZeroException();
+        } else {
+            throw LogNegativeException();
+        }
+    }
+};
+
 
 #endif // NODE_H

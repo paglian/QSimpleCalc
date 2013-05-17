@@ -194,7 +194,7 @@ public:
     {
         Result d = _exp->eval();
         if (d > 0) {
-            return std::log(d);
+            return std::log10(d);
         } else if (d == 0) {
             throw LogZeroException();
         } else {

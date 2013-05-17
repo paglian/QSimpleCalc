@@ -5,13 +5,25 @@
 #include <QStringList>
 
 /**
- * @brief The Tokenizer class
+ * @brief The Tokenizer provides a tokenizer for math expressions
+ *
+ * Example: Tokenizer().tokenize("(2 + 2) * 3"); // Returns [ "(", "2", "+", "2", ")", "*", "3", ")" ]
  */
 class Tokenizer
 {
 public:
+
+    /**
+     * @brief Constructs a Tokenizer object.
+     */
     Tokenizer();
 
+
+    /**
+     * @brief Tokenizes the string \a str and returns the list of \a tokens
+     *
+     * @return Returns true on success and initializes \a tokens. Otherwise; returns false.
+     */
     bool tokenize(const QString &str, QStringList &tokens);
 
 private:

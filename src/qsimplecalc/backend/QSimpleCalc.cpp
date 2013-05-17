@@ -1,16 +1,14 @@
 #include "QSimpleCalc.h"
 #include "mathlib/Parser.h"
 
-QSimpleCalc::QSimpleCalc()
-{
-}
+#include <memory>
 
 double QSimpleCalc::eval(const QString &strExp)
 {
-    Node *exp = Parser().parse(strExp);
+    std::auto_ptr<Node> node(Parser().parse(strExp));
 
-    if (exp) {
-        return exp->eval();
+    if (node.get()) {
+        return node->eval();
     } else {
         return 0;
     }

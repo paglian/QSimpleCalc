@@ -8,6 +8,7 @@
 Node *Parser::parse(const QString &str)
 {
     QStringList tokens;
+
     if (Tokenizer().tokenize(str, tokens)) {
         return SyntaxTree().buildTree(tokens);
     } else {

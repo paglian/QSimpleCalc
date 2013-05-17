@@ -77,8 +77,6 @@ void MainWindow::onExePressed()
             errMsg = tr("Invalid syntax");
         } catch (UnbalancedParException &) {
             errMsg = tr("Unbalanced parentheses");
-        } catch (NullValueException &) {
-            errMsg = tr("Null value");
         } catch (std::exception &) {
             errMsg = tr("Unknown error");
         }

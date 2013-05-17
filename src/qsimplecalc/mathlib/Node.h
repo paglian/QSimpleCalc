@@ -11,30 +11,27 @@
 typedef double Result;
 
 /**
- * @brief The Node class
+ * @brief The Node class provides the base class for all nodes in the syntax parse tree.
+ *
+ * @see SyntaxTree
  */
 class Node
 {
 public:
+
+    /**
+     * @brief Evaluates \a this and returns the result.
+     */
     virtual Result eval() const = 0;
 
+    /**
+     * @brief Destroys the object.
+     */
     virtual ~Node() { }
 };
 
 /**
- * @brief The NullValue class
- */
-class NullValue : public Node
-{
-public:
-    virtual Result eval() const
-    {
-        throw NullValueException();
-    }
-};
-
-/**
- * @brief The FloatValue class
+ * @brief The FloatValue class provides a node with a floting point value
  */
 class FloatValue : public Node
 {
@@ -54,7 +51,7 @@ private:
 };
 
 /**
- * @brief The UnaryOp class
+ * @brief The UnaryOp class provides the base class for all unary operators
  */
 class UnaryOp : public Node
 {
@@ -78,7 +75,7 @@ private:
 };
 
 /**
- * @brief The BynaryOp class
+ * @brief The BynaryOp class provides the base class for all binary operators
  */
 class BynaryOp : public Node
 {
@@ -104,7 +101,7 @@ private:
 };
 
 /**
- * @brief The AddOp class
+ * @brief The AddOp class provides the addition operator
  */
 class AddOp : public BynaryOp
 {
@@ -122,7 +119,7 @@ public:
 
 
 /**
- * @brief The SubsOp class
+ * @brief The SubsOp class provides the substraction operator
  */
 class SubsOp : public BynaryOp
 {
@@ -140,7 +137,7 @@ public:
 
 
 /**
- * @brief The MultOp class
+ * @brief The MultOp class provides multiplication operator
  */
 class MultOp : public BynaryOp
 {
@@ -158,7 +155,7 @@ public:
 
 
 /**
- * @brief The DivOp class
+ * @brief The DivOp class provides the division operator
  */
 class DivOp : public BynaryOp
 {
@@ -180,7 +177,7 @@ public:
 };
 
 /**
- * @brief The LogOp class
+ * @brief The LogOp class provides the log operator
  */
 class LogOp : public UnaryOp
 {
@@ -200,6 +197,54 @@ public:
         } else {
             throw LogNegativeException();
         }
+    }
+};
+
+/**
+ * @brief The ErrorNode class provides the base class for all error nodes
+ */
+class ErrorNode : public Node
+{
+public:
+
+    /**
+     * @brief This method always throws std::exception
+     */
+    virtual Result eval() const
+    {
+        throw std::exception();
+    }
+};
+
+/**
+ * @brief The SyntaxErrorNode class provides a node that means a syntactic error
+ */
+class SyntaxErrorNode : public ErrorNode
+{
+public:
+
+    /**
+     * @brief This method always throws InvalidSyntaxException
+     */
+    virtual Result eval() const
+    {
+        throw InvalidSyntaxException();
+    }
+};
+
+/**
+ * @brief The UnbalancedParErrorNode class provides a node that means unbalanced paragraph found
+ */
+class UnbalancedParErrorNode : public SyntaxErrorNode
+{
+public:
+
+    /**
+     * @brief This method always throws UnbalancedParException
+     */
+    virtual Result eval() const
+    {
+        throw UnbalancedParException();
     }
 };
 

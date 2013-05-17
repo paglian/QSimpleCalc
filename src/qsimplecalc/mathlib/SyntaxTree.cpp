@@ -17,7 +17,7 @@ Node * SyntaxTree::buildTree(const QStringList &tokens)
 Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
 {
     if (start < 0 || end >= tokens.size() || start > end) {
-        throw InvalidSyntaxException();
+        return new SyntaxErrorNode();
     }
 
     if (start == end) {
@@ -29,7 +29,15 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
         }
     } else {
         // If not a leaf, find next operator according to the operator precedence and parentheses
-        int i = findNextOp(tokens, start, end);
+
+        int i = -1;
+
+        try {
+            i = findNextOp(tokens, start, end);
+        } catch (UnbalancedParException) {
+            return new UnbalancedParErrorNode();
+        }
+
         if (i != -1) {
             if (tokens[i] == STR_ADD) {
                 return new AddOp(buildTree(tokens, start, i - 1), buildTree(tokens, i + 1, end));
@@ -54,7 +62,7 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
         }
     }
 
-    throw InvalidSyntaxException();
+    return new SyntaxErrorNode();
 }
 
 int SyntaxTree::findNextOp(const QStringList &tokens, int start, int end)

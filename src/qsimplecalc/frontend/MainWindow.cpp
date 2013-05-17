@@ -2,6 +2,7 @@
 #include "ui_MainWindow.h"
 #include "backend/QSimpleCalc.h"
 #include "mathlib/StringConstants.h"
+#include "mathlib/Exceptions.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -57,13 +58,32 @@ void MainWindow::connectSignals()
 
 void MainWindow::onExePressed()
 {
-    QString errMsg;
-    double result = QSimpleCalc().eval(ui->expText->text(), &errMsg);
-
-    if (errMsg.isEmpty()) {
-        ui->resultText->setText(QString::number(result));
+    if (ui->expText->text().trimmed().isEmpty()) {
+        ui->expText->setText("");
+        ui->resultText->setText("");
     } else {
-        ui->resultText->setText(errMsg);
+        QString errMsg;
+        double result = 0;
+
+        try {
+            result = QSimpleCalc().eval(ui->expText->text(), &errMsg);
+        } catch (DivByZeroException &) {
+            errMsg = tr("Division by zero is undefined");
+        } catch (LogZeroException &) {
+            errMsg = tr("Log of zero is undefined");
+        } catch (LogNegativeException &) {
+            errMsg = tr("Log of negative numbers is not supported");
+        } catch (NullValueException &) {
+            errMsg = tr("Null value");
+        } catch (InvalidSyntaxException &) {
+            errMsg = tr("Invalid syntax");
+        }
+
+        if (errMsg.isEmpty()) {
+            ui->resultText->setText(QString::number(result, 'g', 12));
+        } else {
+            ui->resultText->setText(errMsg);
+        }
     }
 }
 

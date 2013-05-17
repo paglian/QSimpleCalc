@@ -3,7 +3,8 @@ HEADERS += \
     $$QSIMPLECALC_PATH/mathlib/Tokenizer.h \
     $$QSIMPLECALC_PATH/mathlib/Parser.h \
     $$QSIMPLECALC_PATH/mathlib/SyntaxTree.h \
-    $$QSIMPLECALC_PATH/mathlib/StringConstants.h
+    $$QSIMPLECALC_PATH/mathlib/StringConstants.h \
+    $$QSIMPLECALC_PATH/mathlib/Exceptions.h
 
 SOURCES += \
     $$QSIMPLECALC_PATH/mathlib/Tokenizer.cpp \

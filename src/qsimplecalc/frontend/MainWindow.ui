@@ -238,6 +238,9 @@
     </item>
     <item row="5" column="2">
      <widget class="QPushButton" name="helpButton">
+      <property name="focusPolicy">
+       <enum>Qt::NoFocus</enum>
+      </property>
       <property name="text">
        <string>HELP</string>
       </property>

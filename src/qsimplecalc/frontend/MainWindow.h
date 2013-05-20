@@ -62,6 +62,7 @@ private slots:
     void onCParPressed();
     void onDotPressed();
     void onDelPressed();
+    void onHelpPressed();
 };
 
 #endif // MAINWINDOW_H

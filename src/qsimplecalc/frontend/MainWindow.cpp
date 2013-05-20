@@ -4,6 +4,8 @@
 #include "mathlib/StringConstants.h"
 #include "mathlib/Exceptions.h"
 
+#include <QMessageBox>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -54,6 +56,7 @@ void MainWindow::connectSignals()
     connect(ui->cParButton,     SIGNAL(clicked()),       SLOT(onCParPressed()));
     connect(ui->delButton,      SIGNAL(clicked()),       SLOT(onDelPressed()));
     connect(ui->clButton,       SIGNAL(clicked()),       SLOT(clear()));
+    connect(ui->helpButton,     SIGNAL(clicked()),       SLOT(onHelpPressed()));
 }
 
 void MainWindow::onExePressed()
@@ -200,4 +203,24 @@ void MainWindow::onDelPressed()
     if (expSize > 0) {
         ui->expText->setText(ui->expText->text().mid(0, expSize - 1));
     }
+}
+
+void MainWindow::onHelpPressed()
+{
+    QString title = tr("Help");
+    QString msg = tr("QSimpleCalc solves arithmetic expressions and linear equations.\n\n"
+                     "Allowed operators are:\n"
+                     " + : Addition\n"
+                     " - : Substraction\n"
+                     " * : Multiplication\n"
+                     " / : Division\n"
+                     " log : Logarithm base 10\n\n"
+                     "Operators can be grouped using parentheses. Example: (2 + 2)*3\n\n"
+                     "Linear equation must have the form a*x + b = c, where a, b, c "
+                     "are floating point numbers. Example: 2*x + 0.5 = 10");
+
+    QMessageBox helpMsg(this);
+    helpMsg.setWindowTitle(title);
+    helpMsg.setText(msg);
+    helpMsg.exec();
 }

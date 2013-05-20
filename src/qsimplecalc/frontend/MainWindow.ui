@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>467</width>
-    <height>266</height>
+    <height>275</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,6 +19,11 @@
      <widget class="QLineEdit" name="resultText">
       <property name="enabled">
        <bool>true</bool>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>15</pointsize>
+       </font>
       </property>
       <property name="focusPolicy">
        <enum>Qt::NoFocus</enum>

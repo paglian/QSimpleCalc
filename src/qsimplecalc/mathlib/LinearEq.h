@@ -24,7 +24,7 @@
 #include "Node.h"
 
 /**
- * @brief The VariableNode class
+ * @brief The VariableNode class provides a variable
  */
 class VariableNode : public Node
 {
@@ -52,38 +52,19 @@ public:
      *
      * After construction the object owns \a leftSide and \a rightSide
      */
-    LinearEq(Node *leftSide, Node *rightSide)
-        : _ls(leftSide), _rs(rightSide)
-    { }
+    LinearEq(Node *leftSide, Node *rightSide);
 
     /**
      * @brief Destroys \a this and its child nodes
      */
-    virtual ~LinearEq()
-    {
-        delete _ls;
-        delete _rs;
-    }
+    virtual ~LinearEq();
 
     /**
      * @brief Solves the linear equation and returns its value.
      *
-     * @throw InvalidLinearEqException
+     * @throw InvalidSyntaxException, VariableEvalException
      */
-    virtual Result eval() const
-    {
-        if (hasVariable(_ls)) {
-            if (hasVariable(_rs)) {
-                throw InvalidLinearEqException(); // Both sides have variable
-            } else {
-                 return eval(_ls, _rs->eval());
-            }
-        } else if (hasVariable(_rs)) {
-            return eval(_rs, _ls->eval());
-        } else {
-            throw InvalidLinearEqException(); // No variable found
-        }
-    }
+    virtual Result eval() const;
 
 private:
 
@@ -93,49 +74,9 @@ private:
     Node *_ls;
     Node *_rs;
 
-    bool hasVariable(const Node *n) const
-    {
-        // Trick not very performant:
-        try {
-            n->eval();
-            return false;
-        } catch (VariableEvalException &) {
-            return true;
-        } catch (MathException &) {
-            throw InvalidLinearEqException();
-        }
-    }
-
-    Result eval(const Node *varSide, const Result constSide) const
-    {
-        if (dynamic_cast<const VariableNode*>(varSide)) {
-            return constSide;
-        } else if (const BynaryOp * op = dynamic_cast<const BynaryOp *>(varSide)) {
-            if (hasVariable(op->left()) && !hasVariable(op->right())) {
-                return eval(op->left(), inverse(op, constSide, op->right()->eval()));
-            } else if (hasVariable(op->right()) && !hasVariable(op->left())) {
-                return eval(op->right(), inverse(op, constSide, op->left()->eval()));
-            }
-        }
-        throw InvalidLinearEqException();
-    }
-
-    Result inverse(const BynaryOp *op, Result left, Result right) const
-    {
-        if (dynamic_cast<const AddOp *>(op)) {
-            return left - right;
-        }
-        if (dynamic_cast<const SubsOp *>(op)) {
-            return left + right;
-        }
-        if (dynamic_cast<const MultOp *>(op)) {
-            return left / right;
-        }
-        if (dynamic_cast<const DivOp *>(op)) {
-            return left * right;
-        }
-        throw InvalidLinearEqException();
-    }
+    bool hasVariable(const Node *n) const;
+    Result eval(const Node *varSide, const Result constSide) const;
+    Result inverse(const BynaryOp *op, Result left, Result right) const;
 };
 
 

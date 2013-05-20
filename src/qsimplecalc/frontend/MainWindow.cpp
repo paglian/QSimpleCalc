@@ -78,9 +78,9 @@ void MainWindow::onExePressed()
             errMsg = tr("Log of negative numbers is not supported");
         } catch (UnbalancedParException &) {
             errMsg = tr("Unbalanced parentheses");
-        } catch (InvalidLinearEqException &) {
-            errMsg = tr("Invalid linear equation");
         } catch (InvalidSyntaxException &) {
+            errMsg = tr("Invalid syntax");
+        } catch (VariableEvalException &) {
             errMsg = tr("Invalid syntax");
         } catch (std::exception &) {
             errMsg = tr("Unknown error");
@@ -218,8 +218,9 @@ void MainWindow::onHelpPressed()
                      " / : Division\n"
                      " log : Logarithm base 10\n\n"
                      "Operators can be grouped using parentheses. Example: (2 + 2)*3\n\n"
-                     "Linear equation must have the form a*x + b = c, where a, b, c "
-                     "are floating point numbers. Example: 2*x + 0.5 = 10");
+                     "Linear equation must have only one variable declaration.\n"
+                     "For instance: x + x + 0.5 = 10  is not allowed.\nIt should be written as "
+                     "2*x + 0.5 = 10");
 
     QMessageBox helpMsg(this);
     helpMsg.setWindowTitle(title);

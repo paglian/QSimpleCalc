@@ -21,7 +21,6 @@
 #ifndef EXCEPTIONS_H
 #define EXCEPTIONS_H
 
-#include <QString>
 #include <exception>
 
 /**
@@ -60,23 +59,16 @@ class LogNegativeException : public MathException
 };
 
 /**
- * @brief The UnbalancedParException class
- */
-class UnbalancedParException : public InvalidSyntaxException
-{
-};
-
-/**
- * @brief The InvalidEquationException class
- */
-class InvalidLinearEqException : public InvalidSyntaxException
-{
-};
-
-/**
  * @brief The VariableEvalException class
  */
 class VariableEvalException : public MathException
+{
+};
+
+/**
+ * @brief The UnbalancedParException class
+ */
+class UnbalancedParException : public InvalidSyntaxException
 {
 };
 

@@ -103,6 +103,9 @@ void ParserTest::testWellFormed_data()
 
     QTest::newRow("8.4") << QString("20 = 10 * x")
                          << double(2);
+
+    QTest::newRow("8.5") << QString("20 + 10 = 10 * (x + 3) * 3")
+                         << double(-2);
 }
 
 void ParserTest::testIllFormed()
@@ -132,6 +135,7 @@ void ParserTest::testIllFormed_data()
     QTest::newRow("9")  << QString("2 = 2");
     QTest::newRow("10") << QString("2 * x");
     QTest::newRow("11") << QString("2 * x = 2 * x");
+    QTest::newRow("12") << QString("2 * x + 2 * x = 2");
 }
 
 void ParserTest::testUnbalancedPar()

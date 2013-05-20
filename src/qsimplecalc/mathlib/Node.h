@@ -137,6 +137,22 @@ public:
         delete _b;
     }
 
+    /**
+     * @brief Returns the left operand
+     */
+    const Node *left() const
+    {
+        return _a;
+    }
+
+    /**
+     * @brief Returns the right operand
+     */
+    const Node *right() const
+    {
+        return _b;
+    }
+
 protected:
     Node *_a;
     Node *_b;
@@ -292,58 +308,6 @@ public:
             throw LogNegativeException();
         }
     }
-};
-
-
-/**
- * @brief The LinearEq class provides a linear equation
- */
-class LinearEq : public Node
-{
-public:
-
-    /**
-     * @brief Constructs a linear equation \a a * x + \a b = \a c
-     *
-     * After construction the object owns \a a, \a b and \a c
-     */
-    LinearEq(Node *a, Node *b, Node *c)
-        : _a(a), _b(b), _c(c)
-    { }
-
-    /**
-     * @brief Destroys \a this and its child nodes
-     */
-    virtual ~LinearEq()
-    {
-        delete _a;
-        delete _b;
-        delete _c;
-    }
-
-    /**
-     * @brief Solves the linear equation \a a * x + \a b = \a c and returns its value
-     *
-     * @throw InvalidLinearEqException if \a a is zero
-     */
-    virtual Result eval() const
-    {
-        Result a = _a->eval();
-
-        if (a != 0) {
-            return (_c->eval() - _b->eval()) / a;
-        } else {
-            throw InvalidLinearEqException();
-        }
-    }
-
-private:
-    LinearEq(const LinearEq &);
-    LinearEq & operator=(const LinearEq &);
-
-    Node *_a;
-    Node *_b;
-    Node *_c;
 };
 
 

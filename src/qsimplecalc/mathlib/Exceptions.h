@@ -73,4 +73,11 @@ class InvalidLinearEqException : public InvalidSyntaxException
 {
 };
 
+/**
+ * @brief The VariableEvalException class
+ */
+class VariableEvalException : public MathException
+{
+};
+
 #endif // EXCEPTIONS_H

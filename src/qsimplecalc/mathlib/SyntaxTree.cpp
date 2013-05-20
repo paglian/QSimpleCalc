@@ -21,6 +21,7 @@
 #include "SyntaxTree.h"
 #include "StringConstants.h"
 #include "Exceptions.h"
+#include "LinearEq.h"
 
 SyntaxTree::SyntaxTree()
 {
@@ -42,11 +43,16 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
     }
 
     if (start == end) {
-        // If we found a leaf, it must be a floating point number
-        bool ok = false;
-        double d = tokens[start].toDouble(&ok);
-        if (ok) {
-            return new FloatValue(d);
+        // If we found a leaf, it must be a variable or a floating point number
+
+        if (tokens[start] == STR_X) {
+            return new VariableNode();
+        } else {
+            bool ok = false;
+            double d = tokens[start].toDouble(&ok);
+            if (ok) {
+                return new FloatValue(d);
+            }
         }
     } else {
         // If not a leaf, find next operator according to the operator precedence and parentheses
@@ -76,7 +82,7 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
                 return new LogOp(buildTree(tokens, i + 1, end));
             }
             if (tokens[i] == STR_EQ && start == 0 && end == tokens.size() - 1) {
-                return buildLinearEqTree(tokens, i);
+                return new LinearEq(buildTree(tokens, start, i - 1), buildTree(tokens, i + 1, end));
             }
         }
 
@@ -133,55 +139,3 @@ int SyntaxTree::findNextOp(const QStringList &tokens, int start, int end, const 
     return next;
 }
 
-Node *SyntaxTree::buildLinearEqTree(const QStringList &tokens, int eqPos)
-{
-    // Find x position
-    int xPos = -1;
-    for (int i = 0; i < tokens.size(); ++i) {
-        if (tokens[i] == STR_X) {
-            if (xPos == -1) {
-                xPos = i;
-            } else {
-                return new SyntaxErrorNode(); // Two x's found
-            }
-        }
-    }
-
-    // if no x found
-    if (xPos == -1) {
-        return new SyntaxErrorNode();
-    }
-
-    Node *a = 0;
-    Node *b = 0;
-    Node *c = 0;
-
-    if (xPos < eqPos) {
-        // a*x + b = c
-        a = getA(tokens, 0, eqPos - 1, xPos);
-        b = getB(tokens, 0, eqPos - 1, xPos);
-        c = getC(tokens, eqPos + 1, tokens.size() - 1);
-    } else {
-        // c = a*x + b
-        a = getA(tokens, eqPos + 1, tokens.size() - 1, xPos);
-        b = getB(tokens, eqPos + 1, tokens.size() - 1, xPos);
-        c = getC(tokens, 0, eqPos - 1);
-    }
-
-    return new LinearEq(a, b, c);
-}
-
-Node * SyntaxTree::getA(const QStringList &tokens, int start, int end, int xPos)
-{
-    return new FloatValue(1); // TODO
-}
-
-Node * SyntaxTree::getB(const QStringList &tokens, int start, int end, int xPos)
-{
-    return new FloatValue(0); // TODO
-}
-
-Node * SyntaxTree::getC(const QStringList &tokens, int start, int end)
-{
-    return buildTree(tokens, start, end);
-}

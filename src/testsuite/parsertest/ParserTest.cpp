@@ -113,6 +113,7 @@ void ParserTest::testIllFormed()
         Parser().parse(exp)->eval();
         QFAIL("InvalidSyntaxException not thrown");
     } catch (InvalidSyntaxException &) {
+    } catch (VariableEvalException &) {
     }
 }
 

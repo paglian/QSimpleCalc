@@ -49,10 +49,6 @@ private:
     Node *buildTree(const QStringList &tokens, int start, int end);
     int findNextOp(const QStringList &tokens, int start, int end);
     int findNextOp(const QStringList &tokens, int start, int end, const QStringList &ops);
-    Node *buildLinearEqTree(const QStringList &tokens, int eqPos);
-    Node *getA(const QStringList &tokens, int start, int end, int xPos);
-    Node *getB(const QStringList &tokens, int start, int end, int xPos);
-    Node *getC(const QStringList &tokens, int start, int end);
 };
 
 #endif // SYNTAXTREE_H

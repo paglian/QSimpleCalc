@@ -1,3 +1,23 @@
+/*
+ * Copyright (C) 2013 Andres Pagliano.
+ *
+ * This file is part of QSimpleCalc.
+ *
+ * QSimpleCalc is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * QSimpleCalc is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with QSimpleCalc.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
+
 #include "MainWindow.h"
 #include "ui_MainWindow.h"
 #include "backend/QSimpleCalc.h"
@@ -87,8 +107,10 @@ void MainWindow::onExePressed()
         }
 
         if (errMsg.isEmpty()) {
+            ui->resultText->setStyleSheet("color : rgb(0,0,0);");
             ui->resultText->setText(QString::number(result, 'g', 12));
         } else {
+            ui->resultText->setStyleSheet("color : rgb(255,0,0);");
             ui->resultText->setText(errMsg);
         }
     }
@@ -212,13 +234,13 @@ void MainWindow::onHelpPressed()
     QString title = tr("Help");
     QString msg = tr("QSimpleCalc solves arithmetic expressions and linear equations.\n\n"
                      "Allowed operators are:\n"
-                     " + : Addition\n"
-                     " - : Substraction\n"
-                     " * : Multiplication\n"
-                     " / : Division\n"
-                     " log : Logarithm base 10\n\n"
+                     " +: Addition\n"
+                     " -: Substraction\n"
+                     " *: Multiplication\n"
+                     " /: Division\n"
+                     " log: Logarithm base 10\n\n"
                      "Operators can be grouped using parentheses. Example: (2 + 2)*3\n\n"
-                     "Linear equation must have only one variable declaration.\n"
+                     "Linear equations must have only one variable declaration.\n"
                      "For instance: x + x + 0.5 = 10  is not allowed.\nIt should be written as "
                      "2*x + 0.5 = 10");
 

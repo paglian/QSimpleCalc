@@ -97,6 +97,7 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
 
 int SyntaxTree::findNextOp(const QStringList &tokens, int start, int end)
 {
+    // Find next operator according to the operator precedence and parentheses
     for (int i = 0; i < _operators.size(); ++i) {
         int next = findNextOp(tokens, start, end, _operators[i]);
         if (next != -1) {

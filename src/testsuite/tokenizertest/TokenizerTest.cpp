@@ -120,4 +120,4 @@ void TokenizerTest::testCase1_data()
 
 QTEST_APPLESS_MAIN(TokenizerTest)
 
-#include "TokenizertestTest.moc"
+#include "TokenizerTest.moc"

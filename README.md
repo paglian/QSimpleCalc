@@ -9,11 +9,11 @@ __This is a very simple application. I just made this application as part of a r
 
 Qt >= 4.7
 
-### Compile
+### Compile & run
 
-Just execute:
-
-    qmake && make   
+    cd src/qsimplecalc/
+    qmake && make
+    ./QSimpleCalc
 
 ### Project structure
 

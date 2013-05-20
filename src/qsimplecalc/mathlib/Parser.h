@@ -12,7 +12,7 @@ class Parser
 public:
 
     /**
-     * @brief parses the string \a str and builds a syntax parse tree.
+     * @brief Parses the string \a str and builds a syntax parse tree.
      *
      * The caller must free the node.
      *

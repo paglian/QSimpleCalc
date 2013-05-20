@@ -8,7 +8,7 @@ class MainWindow;
 }
 
 /**
- * @brief The MainWindow class provides the calculator main window.
+ * @brief The MainWindow class provides the application main window.
  */
 class MainWindow : public QMainWindow
 {

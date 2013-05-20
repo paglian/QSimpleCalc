@@ -26,7 +26,11 @@
 /**
  * @brief The QSimpleCalc class provides the back-end entry point to evaluate math expressions
  *
- * Example: double result = QSimpleCalc().eval("2 + 2*3");  // result == 8
+ * Example:
+ *
+ * \code{.cpp}
+ * double result = QSimpleCalc().eval("2 + 2*3");  // result == 8
+ * \endcode
  */
 class QSimpleCalc
 {

@@ -83,7 +83,13 @@ bool Tokenizer::tokenize(const QString &str, QStringList &tokens)
         if (getNumber(str, i, token)) {
             _lastToken = NumberToken;
         } else if (getKnownToken(str, i, token)){
-            _lastToken = (token == STR_CPAR) ? CParToken : OtherToken;
+            if (token == STR_CPAR) {
+                _lastToken = CParToken;
+            } else if (token == STR_X) {
+                _lastToken = XToken;
+            } else {
+                _lastToken = OtherToken;
+            }
         } else {
             // if unknown token, set token equal to the remaining string and set set error flag
             token = str.mid(i);
@@ -154,7 +160,7 @@ bool Tokenizer::isSign(const QString &str, int i)
 
     if (isToken(str, i, STR_ADD) || isToken(str, i, STR_SUBS)) {
         if (i + 1 < str.size() && (isDigit(str, i + 1) || isDot(str, i + 1))) {
-            if (_lastToken != NumberToken && _lastToken != CParToken) {
+            if (_lastToken != NumberToken && _lastToken != CParToken && _lastToken != XToken) {
                 return true;
             }
         }

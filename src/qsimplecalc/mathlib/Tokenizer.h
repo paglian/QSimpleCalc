@@ -51,7 +51,7 @@ public:
 
 private:
 
-    enum TokenType { NullToken, NumberToken, CParToken, OtherToken };
+    enum TokenType { NullToken, NumberToken, CParToken, XToken, OtherToken };
 
     TokenType _lastToken;
     QStringList _knownTokens;

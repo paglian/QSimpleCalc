@@ -106,6 +106,9 @@ void ParserTest::testWellFormed_data()
 
     QTest::newRow("8.5") << QString("20 + 10 = 10 * (x + 3) * 3")
                          << double(-2);
+
+    QTest::newRow("8.6") << QString("2*x+1.5=0")
+                         << double(-1.5/double(2));
 }
 
 void ParserTest::testIllFormed()

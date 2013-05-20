@@ -12,8 +12,11 @@ Qt >= 4.7
 ### Compile & run
 
     cd src/qsimplecalc/
-    qmake && make
-    ./QSimpleCalc
+    qmake
+    make
+    ./QSimpleCalc         # (*)
+
+(*) The output directory may change according the OS. For instance in Windows could be found in src/qsimplecalc/debug/
 
 ### Project structure
 

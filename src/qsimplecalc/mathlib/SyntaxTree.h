@@ -39,7 +39,7 @@ public:
     /**
      * @brief Builds a syntax parse tree for the given \a tokens
      *
-     * @return The root node of the tree.
+     * @return The root node of the tree. The caller must free the pointer.
      */
     Node *buildTree(const QStringList &tokens);
 

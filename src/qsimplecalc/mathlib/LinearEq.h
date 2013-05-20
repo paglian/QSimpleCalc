@@ -24,7 +24,7 @@
 #include "Node.h"
 
 /**
- * @brief The VariableNode class provides a variable
+ * @brief The VariableNode class provides a variable for linear equations
  */
 class VariableNode : public Node
 {
@@ -42,6 +42,9 @@ public:
 
 /**
  * @brief The LinearEq class provides a linear equation
+ *
+ * Linear equations must have only one variable declaration.
+ * For instance: x + x + 0.5 = 10  is not allowed. It should be written as 2*x + 0.5 = 10
  */
 class LinearEq : public Node
 {
@@ -62,7 +65,7 @@ public:
     /**
      * @brief Solves the linear equation and returns its value.
      *
-     * @throw InvalidSyntaxException, VariableEvalException
+     * @throw MathException
      */
     virtual Result eval() const;
 

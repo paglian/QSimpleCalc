@@ -27,7 +27,11 @@
 /**
  * @brief The Tokenizer provides a tokenizer for math expressions
  *
- * Example: Tokenizer().tokenize("(2 + 2) * 3"); // Returns [ "(", "2", "+", "2", ")", "*", "3", ")" ]
+ * Example:
+ *
+ * \code{.cpp}
+ * Tokenizer().tokenize("(2 + 2) * 3"); // Returns [ "(", "2", "+", "2", ")", "*", "3", ")" ]
+ * \endcode
  */
 class Tokenizer
 {

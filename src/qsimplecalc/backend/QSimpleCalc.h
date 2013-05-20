@@ -37,7 +37,7 @@ public:
      *
      * @return If the expression is valid returns the result. Otherwise; throws a MathException
      *
-     * @see MathException derived classes to get the list of possible errors
+     * @throw MathException
      */
     double eval(const QString &strExp);
 };

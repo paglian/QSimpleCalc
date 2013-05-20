@@ -37,9 +37,9 @@ public:
      * The caller must free the node.
      *
      * @return If the expression is valid returns the root node of the parse tree.
-     * Otherwise; throws a MathException.
+     * Otherwise; throws InvalidSyntaxException
      *
-     * @see MathException derived classes to get the list of possible errors
+     * @throw InvalidSyntaxException
      */
     Node * parse(const QString &str);
 };

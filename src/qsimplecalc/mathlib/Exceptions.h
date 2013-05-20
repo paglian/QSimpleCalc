@@ -42,7 +42,14 @@ class LogNegativeException : public MathException
 /**
  * @brief The UnbalancedParException class
  */
-class UnbalancedParException : public MathException
+class UnbalancedParException : public InvalidSyntaxException
+{
+};
+
+/**
+ * @brief The InvalidEquationException class
+ */
+class InvalidLinearEqException : public InvalidSyntaxException
 {
 };
 

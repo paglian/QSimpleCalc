@@ -76,10 +76,12 @@ void MainWindow::onExePressed()
             errMsg = tr("Log of zero is undefined");
         } catch (LogNegativeException &) {
             errMsg = tr("Log of negative numbers is not supported");
-        } catch (InvalidSyntaxException &) {
-            errMsg = tr("Invalid syntax");
         } catch (UnbalancedParException &) {
             errMsg = tr("Unbalanced parentheses");
+        } catch (InvalidLinearEqException &) {
+            errMsg = tr("Invalid linear equation");
+        } catch (InvalidSyntaxException &) {
+            errMsg = tr("Invalid syntax");
         } catch (std::exception &) {
             errMsg = tr("Unknown error");
         }

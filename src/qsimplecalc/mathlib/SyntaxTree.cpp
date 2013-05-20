@@ -4,9 +4,10 @@
 
 SyntaxTree::SyntaxTree()
 {
-    _operators.append(QStringList() << STR_ADD << STR_SUBS);    // Operators with precedence 1
-    _operators.append(QStringList() << STR_DIV << STR_MULT);    // Operators with precedence 2
-    _operators.append(QStringList() << STR_LOG);                // Operators with precedence 3
+    _operators.append(QStringList() << STR_EQ);                 // Operators with precedence 1
+    _operators.append(QStringList() << STR_ADD << STR_SUBS);    // Operators with precedence 2
+    _operators.append(QStringList() << STR_DIV << STR_MULT);    // Operators with precedence 3
+    _operators.append(QStringList() << STR_LOG);                // Operators with precedence 4
 }
 
 Node * SyntaxTree::buildTree(const QStringList &tokens)
@@ -53,6 +54,9 @@ Node * SyntaxTree::buildTree(const QStringList &tokens, int start, int end)
             }
             if (tokens[i] == STR_LOG && i == start) {
                 return new LogOp(buildTree(tokens, i + 1, end));
+            }
+            if (tokens[i] == STR_EQ && start == 0 && end == tokens.size() - 1) {
+                return buildLinearEqTree(tokens, i);
             }
         }
 
@@ -107,4 +111,57 @@ int SyntaxTree::findNextOp(const QStringList &tokens, int start, int end, const 
     }
 
     return next;
+}
+
+Node *SyntaxTree::buildLinearEqTree(const QStringList &tokens, int eqPos)
+{
+    // Find x position
+    int xPos = -1;
+    for (int i = 0; i < tokens.size(); ++i) {
+        if (tokens[i] == STR_X) {
+            if (xPos == -1) {
+                xPos = i;
+            } else {
+                return new SyntaxErrorNode(); // Two x's found
+            }
+        }
+    }
+
+    // if no x found
+    if (xPos == -1) {
+        return new SyntaxErrorNode();
+    }
+
+    Node *a = 0;
+    Node *b = 0;
+    Node *c = 0;
+
+    if (xPos < eqPos) {
+        // a*x + b = c
+        a = getA(tokens, 0, eqPos - 1, xPos);
+        b = getB(tokens, 0, eqPos - 1, xPos);
+        c = getC(tokens, eqPos + 1, tokens.size() - 1);
+    } else {
+        // c = a*x + b
+        a = getA(tokens, eqPos + 1, tokens.size() - 1, xPos);
+        b = getB(tokens, eqPos + 1, tokens.size() - 1, xPos);
+        c = getC(tokens, 0, eqPos - 1);
+    }
+
+    return new LinearEq(a, b, c);
+}
+
+Node * SyntaxTree::getA(const QStringList &tokens, int start, int end, int xPos)
+{
+    return new FloatValue(1); // TODO
+}
+
+Node * SyntaxTree::getB(const QStringList &tokens, int start, int end, int xPos)
+{
+    return new FloatValue(0); // TODO
+}
+
+Node * SyntaxTree::getC(const QStringList &tokens, int start, int end)
+{
+    return buildTree(tokens, start, end);
 }

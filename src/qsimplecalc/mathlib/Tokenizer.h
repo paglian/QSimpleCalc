@@ -18,7 +18,6 @@ public:
      */
     Tokenizer();
 
-
     /**
      * @brief Tokenizes the string \a str and returns the list of \a tokens
      *
@@ -28,13 +27,7 @@ public:
 
 private:
 
-    enum TokenType
-    {
-        NullToken,
-        NumberToken,
-        CParToken,
-        OtherToken
-    };
+    enum TokenType { NullToken, NumberToken, CParToken, OtherToken };
 
     TokenType _lastToken;
     QStringList _knownTokens;

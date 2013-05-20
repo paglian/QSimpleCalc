@@ -71,6 +71,18 @@ void ParserTest::testWellFormed_data()
 
     QTest::newRow("7")   << QString("99.9/30/3/5.1 + 1 - 1")
                          << double(99.9/30/3/double(5.1) + 1 - 1);
+
+    QTest::newRow("8.1") << QString("2*x + 1.5 = 0")
+                         << double(-1.5/double(2));
+
+    QTest::newRow("8.2") << QString("2 = 3.5*x + 1.5")
+                         << double(0.5/double(3.5));
+
+    QTest::newRow("8.3") << QString("10 * x = 20")
+                         << double(2);
+
+    QTest::newRow("8.4") << QString("20 = 10 * x")
+                         << double(2);
 }
 
 void ParserTest::testIllFormed()
@@ -88,14 +100,17 @@ void ParserTest::testIllFormed_data()
 {
     QTest::addColumn<QString>("exp");
 
-    QTest::newRow("0") << QString("");
-    QTest::newRow("1") << QString("2+");
-    QTest::newRow("2") << QString("*2");
-    QTest::newRow("3") << QString("9%3");
-    QTest::newRow("4") << QString("sin 4");
-    QTest::newRow("5") << QString("((2+2)*sin 4)");
-    QTest::newRow("6") << QString("log");
-    QTest::newRow("7") << QString("2 log 10");
+    QTest::newRow("0")  << QString("");
+    QTest::newRow("1")  << QString("2+");
+    QTest::newRow("2")  << QString("*2");
+    QTest::newRow("3")  << QString("9%3");
+    QTest::newRow("4")  << QString("sin 4");
+    QTest::newRow("5")  << QString("((2+2)*sin 4)");
+    QTest::newRow("6")  << QString("log");
+    QTest::newRow("7")  << QString("2 log 10");
+    QTest::newRow("9")  << QString("2 = 2");
+    QTest::newRow("10") << QString("2 * x");
+    QTest::newRow("11") << QString("2 * x = 2 * x");
 }
 
 void ParserTest::testUnbalancedPar()

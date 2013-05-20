@@ -6,9 +6,10 @@
 #include "Exceptions.h"
 
 /**
- * @brief Result
+ * @brief The Result of evaluating a node
  */
 typedef double Result;
+
 
 /**
  * @brief The Node class provides the base class for all nodes in the syntax parse tree.
@@ -30,6 +31,7 @@ public:
     virtual ~Node() { }
 };
 
+
 /**
  * @brief The FloatValue class provides a node with a floting point value
  */
@@ -37,10 +39,16 @@ class FloatValue : public Node
 {
 public:
 
+    /**
+     * @brief Constructs a FloatValue object with \a value
+     */
     FloatValue(double value)
         : _value(value)
     { }
 
+    /**
+     * @brief Returns the floating point value given at construction time
+     */
     virtual Result eval() const
     {
         return _value;
@@ -50,6 +58,7 @@ private:
     double _value;
 };
 
+
 /**
  * @brief The UnaryOp class provides the base class for all unary operators
  */
@@ -57,22 +66,31 @@ class UnaryOp : public Node
 {
 public:
 
-    UnaryOp(Node *exp)
-        : _exp(exp)
+    /**
+     * @brief Constructs an abstract unary operator with operand \a a.
+     *
+     * After construction the object owns \a a.
+     */
+    UnaryOp(Node *a)
+        : _a(a)
     { }
 
+    /**
+     * @brief Destroys \a this and its child nodes
+     */
     virtual ~UnaryOp()
     {
-        delete _exp;
+        delete _a;
     }
 
 protected:
-    Node *_exp;
+    Node *_a;
 
 private:
     UnaryOp(const UnaryOp &);
     UnaryOp & operator=(const UnaryOp &);
 };
+
 
 /**
  * @brief The BynaryOp class provides the base class for all binary operators
@@ -81,24 +99,33 @@ class BynaryOp : public Node
 {
 public:
 
-    BynaryOp(Node *exp1, Node *exp2)
-        : _exp1(exp1), _exp2(exp2)
+    /**
+     * @brief Constructs an abstract binary operator with operands \a a and \a b.
+     *
+     * After construction the object owns \a a and \a b.
+     */
+    BynaryOp(Node *a, Node *b)
+        : _a(a), _b(b)
     { }
 
+    /**
+     * @brief Destroys \a this and its child nodes
+     */
     virtual ~BynaryOp()
     {
-        delete _exp1;
-        delete _exp2;
+        delete _a;
+        delete _b;
     }
 
 protected:
-    Node *_exp1;
-    Node *_exp2;
+    Node *_a;
+    Node *_b;
 
 private:
     BynaryOp(const BynaryOp &);
     BynaryOp & operator=(const BynaryOp &);
 };
+
 
 /**
  * @brief The AddOp class provides the addition operator
@@ -107,13 +134,21 @@ class AddOp : public BynaryOp
 {
 public:
 
-    AddOp(Node *exp1, Node *exp2)
-        : BynaryOp(exp1, exp2)
+    /**
+     * @brief Constructs an addition operator with operands \a a and \a b
+     *
+     * After construction the object owns \a a and \a b.
+     */
+    AddOp(Node *a, Node *b)
+        : BynaryOp(a, b)
     { }
 
+    /**
+     * @brief Evaluates the addition of the nodes given at contruction time and returns its value
+     */
     virtual Result eval() const
     {
-        return _exp1->eval() + _exp2->eval();
+        return _a->eval() + _b->eval();
     }
 };
 
@@ -125,13 +160,22 @@ class SubsOp : public BynaryOp
 {
 public:
 
-    SubsOp(Node *exp1, Node *exp2)
-        : BynaryOp(exp1, exp2)
+    /**
+     * @brief Constructs a substraction operator with operands \a a and \a b.
+     *
+     * After construction the object owns \a a and \a b.
+     */
+    SubsOp(Node *a, Node *b)
+        : BynaryOp(a, b)
     { }
 
+    /**
+     * @brief Evaluates the substraction of the nodes given at contruction time and returns
+     * its value
+     */
     virtual Result eval() const
     {
-        return _exp1->eval() - _exp2->eval();
+        return _a->eval() - _b->eval();
     }
 };
 
@@ -143,13 +187,22 @@ class MultOp : public BynaryOp
 {
 public:
 
-    MultOp(Node *exp1, Node *exp2)
-        : BynaryOp(exp1, exp2)
+    /**
+     * @brief Constructs a BynaryOp object with operands \a a and \a b
+     *
+     * After construction the object owns \a a and \a b
+     */
+    MultOp(Node *a, Node *b)
+        : BynaryOp(a, b)
     { }
 
+    /**
+     * @brief Evaluates the multiplication of the nodes given at contruction time and returns
+     * its value
+     */
     virtual Result eval() const
     {
-        return _exp1->eval() * _exp2->eval();
+        return _a->eval() * _b->eval();
     }
 };
 
@@ -161,20 +214,31 @@ class DivOp : public BynaryOp
 {
 public:
 
-    DivOp(Node *exp1, Node *exp2)
-        : BynaryOp(exp1, exp2)
+    /**
+     * @brief Constructs a division operator with operands \a a and \a b.
+     *
+     * After construction the object owns \a a and \a b
+     */
+    DivOp(Node *a, Node *b)
+        : BynaryOp(a, b)
     { }
 
+    /**
+     * @brief Evaluates the division of the nodes given at contruction time and returns its value
+     *
+     * @throw DivByZeroException
+     */
     virtual Result eval() const
     {
-        Result d = _exp2->eval();
+        Result d = _b->eval();
         if (d != 0) {
-            return _exp1->eval() / d;
+            return _a->eval() / d;
         } else {
             throw DivByZeroException();
         }
     }
 };
+
 
 /**
  * @brief The LogOp class provides the log operator
@@ -183,13 +247,23 @@ class LogOp : public UnaryOp
 {
 public:
 
-    LogOp(Node *exp)
-        : UnaryOp(exp)
+    /**
+     * @brief Constructs a log operator with operand \a a.
+     *
+     * After construction the object owns \a a.
+     */
+    LogOp(Node *a)
+        : UnaryOp(a)
     { }
 
+    /**
+     * @brief Evaluates the log of the node given at contruction time and returns its value
+     *
+     * @throw LogZeroException, LogNegativeException
+     */
     virtual Result eval() const
     {
-        Result d = _exp->eval();
+        Result d = _a->eval();
         if (d > 0) {
             return std::log10(d);
         } else if (d == 0) {
@@ -200,21 +274,66 @@ public:
     }
 };
 
+
+/**
+ * @brief The LinearEq class provides a linear equation
+ */
+class LinearEq : public Node
+{
+public:
+
+    /**
+     * @brief Constructs a linear equation \a a * x + \a b = \a c
+     *
+     * After construction the object owns \a a, \a b and \a c
+     */
+    LinearEq(Node *a, Node *b, Node *c)
+        : _a(a), _b(b), _c(c)
+    { }
+
+    /**
+     * @brief Destroys \a this and its child nodes
+     */
+    virtual ~LinearEq()
+    {
+        delete _a;
+        delete _b;
+        delete _c;
+    }
+
+    /**
+     * @brief Solves the linear equation \a a * x + \a b = \a c and returns its value
+     *
+     * @throw InvalidLinearEqException if \a a is zero
+     */
+    virtual Result eval() const
+    {
+        Result a = _a->eval();
+
+        if (a != 0) {
+            return (_c->eval() - _b->eval()) / a;
+        } else {
+            throw InvalidLinearEqException();
+        }
+    }
+
+private:
+    LinearEq(const LinearEq &);
+    LinearEq & operator=(const LinearEq &);
+
+    Node *_a;
+    Node *_b;
+    Node *_c;
+};
+
+
 /**
  * @brief The ErrorNode class provides the base class for all error nodes
  */
 class ErrorNode : public Node
 {
-public:
-
-    /**
-     * @brief This method always throws std::exception
-     */
-    virtual Result eval() const
-    {
-        throw std::exception();
-    }
 };
+
 
 /**
  * @brief The SyntaxErrorNode class provides a node that means a syntactic error
@@ -225,12 +344,15 @@ public:
 
     /**
      * @brief This method always throws InvalidSyntaxException
+     *
+     * @throw InvalidSyntaxException
      */
     virtual Result eval() const
     {
         throw InvalidSyntaxException();
     }
 };
+
 
 /**
  * @brief The UnbalancedParErrorNode class provides a node that means unbalanced paragraph found
@@ -241,12 +363,13 @@ public:
 
     /**
      * @brief This method always throws UnbalancedParException
+     *
+     * @throw UnbalancedParException
      */
     virtual Result eval() const
     {
         throw UnbalancedParException();
     }
 };
-
 
 #endif // NODE_H
